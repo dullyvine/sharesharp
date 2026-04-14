@@ -1,36 +1,85 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Share Sharp
 
-## Getting Started
+Share Sharp is a Next.js file-transfer app built for Cloudflare Workers.
 
-First, run the development server:
+## How it works
+
+- The frontend is a Next.js App Router app.
+- The backend is handled by Next route handlers running inside a Cloudflare Worker via `@opennextjs/cloudflare`.
+- File metadata lives in Cloudflare D1.
+- File bytes live in Cloudflare R2.
+- A scheduled Worker cleanup job removes expired uploads every hour.
+
+## Current Cloudflare state
+
+- A real D1 database named `sharesharp-db` has already been created.
+- The `transfers` table migration has already been applied to that D1 database.
+- `wrangler.jsonc` already contains the real D1 database ID.
+- R2 is still not ready on this account. Cloudflare returned `10042: Please enable R2 through the Cloudflare Dashboard.`
+
+That means:
+
+- The code is wired for Cloudflare.
+- D1 is real and connected.
+- R2 storage is still blocked by the account setting, so production file storage cannot work until R2 is enabled and the bucket is created.
+
+## Local development
+
+Install dependencies:
+
+```bash
+npm install
+```
+
+Generate Worker binding types after config changes:
+
+```bash
+npm run cf-typegen
+```
+
+Apply the local D1 migration:
+
+```bash
+npm run db:migrate:local
+```
+
+Run the Next.js dev server:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Build the app:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+npm run build
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Cloudflare deployment
 
-## Learn More
+This project is meant for **Cloudflare Workers**, not a plain Cloudflare Pages static build.
 
-To learn more about Next.js, take a look at the following resources:
+### Required before deploy
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+1. Enable R2 in the Cloudflare dashboard for this account.
+2. Create an R2 bucket named `sharesharp-uploads`.
+3. Make sure `wrangler login` is done locally if you want to deploy from your machine.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### Deploy commands
 
-## Deploy on Vercel
+```bash
+npm run deploy
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+If you want to preview the built Worker locally:
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```bash
+npm run preview
+```
+
+## Important note about storage
+
+- In local development, files are stored in Wrangler's local simulation under `.wrangler/`.
+- In production, files will be stored in the R2 bucket bound as `UPLOADS`.
+- They are not being stored in browser local storage.
+- They are not being stored inside D1 as blobs.

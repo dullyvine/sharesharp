@@ -1,6 +1,6 @@
 {
   "$schema": "./node_modules/wrangler/config-schema.json",
-  "name": "sharefast",
+  "name": "sharesharp",
   "main": "./worker.js",
   "compatibility_date": "2026-04-14",
   "compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"],
@@ -14,21 +14,21 @@
   "services": [
     {
       "binding": "WORKER_SELF_REFERENCE",
-      "service": "sharefast"
+      "service": "sharesharp"
     }
   ],
   "d1_databases": [
     {
       "binding": "DB",
-      "database_name": "sharefast-db",
-      "database_id": "495bb553-8e6c-47f4-81b6-4d057a348548",
+      "database_name": "sharesharp-db",
+      "database_id": "37d56b68-12a4-4ab1-84ac-498d2058c981",
       "migrations_dir": "./migrations"
     }
   ],
   "r2_buckets": [
     {
       "binding": "UPLOADS",
-      "bucket_name": "sharefast-uploads"
+      "bucket_name": "sharesharp-uploads"
     }
   ],
   "triggers": {

@@ -10,8 +10,8 @@
     "upload": "opennextjs-cloudflare build && opennextjs-cloudflare upload",
     "lint": "eslint .",
     "cf-typegen": "wrangler types --env-interface CloudflareEnv cloudflare-env.d.ts",
-    "db:migrate:local": "wrangler d1 migrations apply sharefast-db --local",
-    "db:migrate:remote": "wrangler d1 migrations apply sharefast-db --remote"
+    "db:migrate:local": "wrangler d1 migrations apply sharesharp-db --local",
+    "db:migrate:remote": "wrangler d1 migrations apply sharesharp-db --remote"
   },
   "dependencies": {
     "@opennextjs/cloudflare": "^1.19.1",
