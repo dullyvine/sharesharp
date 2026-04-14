@@ -1,19 +1,21 @@
 import type { Metadata } from "next";
-import { Plus_Jakarta_Sans, Bricolage_Grotesque } from "next/font/google";
+import { Special_Elite, IBM_Plex_Mono } from "next/font/google";
 import "./globals.css";
 
-const jakarta = Plus_Jakarta_Sans({
-  variable: "--font-body",
+const specialElite = Special_Elite({
+  variable: "--font-display",
+  weight: "400",
   subsets: ["latin"],
 });
 
-const bricolage = Bricolage_Grotesque({
-  variable: "--font-display",
+const ibmPlexMono = IBM_Plex_Mono({
+  variable: "--font-body",
+  weight: ["400", "500", "600"],
   subsets: ["latin"],
 });
 
 export const metadata: Metadata = {
-  title: "ShareFast",
+  title: "ShareSharp",
   description:
     "Send any file with a self-destructing link. No account needed.",
   icons: {
@@ -29,7 +31,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${jakarta.variable} ${bricolage.variable}`}
+      className={`${specialElite.variable} ${ibmPlexMono.variable}`}
     >
       <body>{children}</body>
     </html>

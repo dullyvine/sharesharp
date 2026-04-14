@@ -3,7 +3,7 @@ import {
   EXPIRY_OPTIONS,
   MAX_FILE_SIZE_BYTES,
   PART_SIZE_BYTES,
-} from "@/lib/sharefast-constants";
+} from "@/lib/sharesharp-constants";
 
 const DAY_MS = 24 * 60 * 60 * 1000;
 const MAX_TITLE_LENGTH = 96;

@@ -1,11 +1,11 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-label="ShareFast">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-label="ShareSharp">
   <defs>
-    <linearGradient id="sharefast-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#13212f" />
-      <stop offset="100%" stop-color="#0c7c70" />
+    <linearGradient id="sharesharp-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#111111" />
+      <stop offset="100%" stop-color="#333333" />
     </linearGradient>
   </defs>
-  <rect width="128" height="128" rx="34" fill="url(#sharefast-gradient)" />
+  <rect width="128" height="128" rx="34" fill="url(#sharesharp-gradient)" />
   <path d="M36 44h33c11.6 0 19 6.5 19 16.7 0 6.8-3.5 11.8-10.2 14.4L92 93H72.3L61.5 77.9H52v15.1H36V44Zm16 14v7.8h16.3c2.5 0 4.1-1.6 4.1-3.9 0-2.3-1.6-3.9-4.1-3.9H52Z" fill="#f7fbfc" />
-  <path d="M28 30h72" stroke="#d8f16f" stroke-width="6" stroke-linecap="round" opacity=".9" />
+  <path d="M28 30h72" stroke="#f7fbfc" stroke-width="6" stroke-linecap="round" opacity=".9" />
 </svg>

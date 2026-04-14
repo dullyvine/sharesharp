@@ -6,8 +6,8 @@ import { formatBytes } from "@/lib/formatting";
 import {
   EXPIRY_OPTIONS,
   MAX_FILE_SIZE_BYTES,
-} from "@/lib/sharefast-constants";
-import styles from "./sharefast.module.css";
+} from "@/lib/sharesharp-constants";
+import styles from "./sharesharp.module.css";
 
 type UploadState = {
   active: boolean;
@@ -153,7 +153,7 @@ export function TransferComposer() {
   }
 
   return (
-    <form className={styles.transferForm} onSubmit={handleSubmit}>
+    <form className={styles.uploadForm} onSubmit={handleSubmit}>
       {error ? (
         <div className={styles.errorBanner} role="alert">
           {error}
@@ -162,7 +162,7 @@ export function TransferComposer() {
 
       <button
         type="button"
-        className={`${styles.dropzone} ${isDragging ? styles.isDragging : ""}`}
+        className={`${styles.dropzone} ${isDragging ? styles.isDragging : ""} ${selectedFile ? styles.hasFile : ""}`}
         onClick={() => fileInputRef.current?.click()}
         onDragEnter={(event) => {
           event.preventDefault();
@@ -195,67 +195,76 @@ export function TransferComposer() {
           }}
         />
 
-        <div className={styles.dropzoneCopy}>
-          <span className={styles.dropzoneIcon}>+</span>
-          <div>
-            <strong>{selectedFile ? selectedFile.name : "Choose a file"}</strong>
-            <p>
-              {selectedFile
-                ? `${formatBytes(selectedFile.size)} ready to upload`
-                : "Drop a file here or browse from your device."}
-            </p>
+        {selectedFile ? (
+          <div className={styles.filePreview}>
+            <span className={styles.fileIcon}>
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+            </span>
+            <div className={styles.fileDetails}>
+              <strong>{selectedFile.name}</strong>
+              <span>{formatBytes(selectedFile.size)}</span>
+            </div>
+            <span className={styles.changeFile}>Swap</span>
           </div>
-        </div>
-
-        <span className={styles.dropzoneMeta}>Up to 5 GB</span>
+        ) : (
+          <div className={styles.dropzoneEmpty}>
+            <span className={styles.dropzoneIcon}>
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+            </span>
+            <p><strong>Attach Package</strong> — drop or click to select</p>
+            <span className={styles.dropzoneLimit}>Max 5 GB per drop</span>
+          </div>
+        )}
       </button>
 
-      <label className={styles.field}>
-        <span>Title</span>
-        <input
-          type="text"
-          value={title}
-          onChange={(event) => setTitle(event.target.value)}
-          maxLength={96}
-          placeholder="e.g. Campaign deck, raw footage, contract..."
-          required
-        />
-      </label>
+      <div className={styles.formFields}>
+        <label className={styles.field}>
+          <span>Package Label</span>
+          <input
+            type="text"
+            value={title}
+            onChange={(event) => setTitle(event.target.value)}
+            maxLength={96}
+            placeholder="Describe the contents"
+            required
+          />
+        </label>
 
-      <label className={styles.field}>
-        <span>Message</span>
-        <textarea
-          value={message}
-          onChange={(event) => setMessage(event.target.value)}
-          maxLength={400}
-          rows={4}
-          placeholder="Optional note for the recipient"
-        />
-      </label>
+        <label className={styles.field}>
+          <span>Field Note <span className={styles.fieldOptional}>(optional)</span></span>
+          <textarea
+            value={message}
+            onChange={(event) => setMessage(event.target.value)}
+            maxLength={400}
+            rows={3}
+            placeholder="Instructions for the recipient"
+          />
+        </label>
+      </div>
 
       <fieldset className={styles.expiryFieldset}>
-        <legend>Expiry</legend>
-        {EXPIRY_OPTIONS.map((option) => (
-          <label key={option} className={styles.expiryOption}>
-            <input
-              type="radio"
-              name="expiresInDays"
-              checked={expiresInDays === option}
-              onChange={() => setExpiresInDays(option)}
-            />
-            <span>
+        <legend>Burn Time</legend>
+        <div className={styles.expiryOptions}>
+          {EXPIRY_OPTIONS.map((option) => (
+            <label key={option} className={`${styles.expiryOption} ${expiresInDays === option ? styles.expirySelected : ""}`}>
+              <input
+                type="radio"
+                name="expiresInDays"
+                checked={expiresInDays === option}
+                onChange={() => setExpiresInDays(option)}
+                className={styles.visuallyHidden}
+              />
               <strong>{option} day{option === 1 ? "" : "s"}</strong>
-              <small>{option === 1 ? "Quick handoff" : "Maximum window"}</small>
-            </span>
-          </label>
-        ))}
+            </label>
+          ))}
+        </div>
       </fieldset>
 
       {uploadState.active ? (
         <div className={styles.progressCard} aria-live="polite">
           <div className={styles.progressRow}>
-            <strong>{uploadState.step}</strong>
-            <span>{Math.round(uploadState.progress * 100)}%</span>
+            <span className={styles.progressLabel}>{uploadState.step}</span>
+            <span className={styles.progressPct}>{Math.round(uploadState.progress * 100)}%</span>
           </div>
           <div className={styles.progressBar}>
             <span style={{ width: `${Math.round(uploadState.progress * 100)}%` }} />
@@ -264,15 +273,20 @@ export function TransferComposer() {
       ) : null}
 
       <button
-        className={styles.primaryButton}
+        className={styles.submitButton}
         type="submit"
         disabled={uploadState.active}
       >
-        {uploadState.active ? "Uploading..." : "Generate share link"}
+        {uploadState.active ? "Deploying..." : (
+          <>
+            Initiate Drop
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </>
+        )}
       </button>
 
-      <p className={styles.formNote}>
-        Files are permanently deleted after your chosen window. Max {formatBytes(MAX_FILE_SIZE_BYTES)} per transfer.
+      <p className={styles.formDisclaimer}>
+        Package is permanently burned after the selected window.
       </p>
     </form>
   );

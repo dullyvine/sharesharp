@@ -13,9 +13,9 @@ html {
 
 body {
   margin: 0;
-  background: #09090b;
-  color: #fafafa;
-  font-family: var(--font-body), system-ui, sans-serif;
+  background: #0c0b09;
+  color: #c8ab6a;
+  font-family: var(--font-body), "Courier New", monospace;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -37,5 +37,6 @@ button {
 }
 
 ::selection {
-  background: rgba(16, 185, 129, 0.3);
+  background: rgba(154, 32, 16, 0.35);
+  color: #f0e0c0;
 }

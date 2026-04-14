@@ -1,84 +1,37 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
-import styles from "./sharefast.module.css";
+import styles from "./sharesharp.module.css";
 
 type SiteShellProps = {
-  panelTitle: string;
-  panelCaption: string;
   children: ReactNode;
 };
 
-export function SiteShell({
-  panelTitle,
-  panelCaption,
-  children,
-}: SiteShellProps) {
+export function SiteShell({ children }: SiteShellProps) {
   return (
-    <div className={styles.pageShell}>
-      <div className={`${styles.backgroundWash} ${styles.backgroundWashLeft}`} />
-      <div className={`${styles.backgroundWash} ${styles.backgroundWashRight}`} />
-      <div className={styles.gridOverlay} />
-
-      <header className={styles.topbar}>
+    <div className={styles.shell}>
+      <header className={styles.navbar}>
         <Link href="/" className={styles.brand}>
-          <span className={styles.brandMark}>SF</span>
-          <span className={styles.brandText}>
-            <strong>ShareFast</strong>
-            <small>Send files, not follow-ups.</small>
+          <span className={styles.brandIcon}>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" /><polyline points="17 8 12 3 7 8" /><line x1="12" y1="3" x2="12" y2="15" /></svg>
+          </span>
+          <span className={styles.brandStack}>
+            <span className={styles.brandName}>ShareSharp</span>
+            <span className={styles.brandBy}>by divine</span>
           </span>
         </Link>
-
-        <div className={styles.topbarMeta}>
-          <span>Auto-expiring</span>
-          <span>No account needed</span>
-          <span>Up to 5 GB</span>
-        </div>
+        <span className={styles.navPill}>
+          <span className={styles.navPillDot} />
+          Ops Active
+        </span>
       </header>
 
-      <main className={styles.layout}>
-        <section className={styles.heroPanel}>
-          <p className={styles.eyebrow}>Temporary file sharing</p>
-          <h1>Send any file with a link that self-destructs.</h1>
-          <p className={styles.heroCopy}>
-            Upload your file, add a quick note, pick an expiry window, and
-            share the link. When the timer runs out, it&apos;s gone for good.
-            No signups. No storage bloat. Just the handoff.
-          </p>
-
-          <div className={styles.heroBadges}>
-            <span>Files up to 5 GB</span>
-            <span>Auto-delete on expiry</span>
-            <span>Zero accounts</span>
-          </div>
-
-          <div className={styles.heroCard}>
-            <div className={styles.heroCardRow}>
-              <strong>01</strong>
-              <p>Drop your file and add a title or message for the recipient.</p>
-            </div>
-            <div className={styles.heroCardRow}>
-              <strong>02</strong>
-              <p>Choose 1 or 3 days — the link stops working after your window.</p>
-            </div>
-            <div className={styles.heroCardRow}>
-              <strong>03</strong>
-              <p>Share the link. Once expired, the file is permanently removed.</p>
-            </div>
-          </div>
-        </section>
-
-        <section className={styles.appPanel}>
-          <div className={styles.panelHeader}>
-            <div>
-              <p className={styles.panelKicker}>Transfer</p>
-              <h2>{panelTitle}</h2>
-            </div>
-            <p className={styles.panelCaption}>{panelCaption}</p>
-          </div>
-
-          {children}
-        </section>
+      <main className={styles.stage}>
+        {children}
       </main>
+
+      <footer className={styles.siteFooter}>
+        <p>All drops self-destruct &middot; No registration required &middot; Eyes only</p>
+      </footer>
     </div>
   );
 }

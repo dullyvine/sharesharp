@@ -1,7 +1,7 @@
 export async function GET() {
   return Response.json({
     ok: true,
-    service: "sharefast",
+    service: "sharesharp",
     timestamp: Date.now(),
   });
 }

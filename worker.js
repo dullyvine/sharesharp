@@ -32,7 +32,7 @@ async function cleanupExpiredTransfers(env) {
   }
 }
 
-const sharefastWorker = {
+const sharesharpWorker = {
   async fetch(request, env, ctx) {
     const handler = await getOpenNextHandler();
     return handler.fetch(request, env, ctx);
@@ -48,4 +48,4 @@ const sharefastWorker = {
   },
 };
 
-export default sharefastWorker;
+export default sharesharpWorker;
